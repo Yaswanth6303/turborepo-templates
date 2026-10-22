@@ -1,0 +1,15 @@
+{
+  "$schema": "./node_modules/oxfmt/configuration_schema.json",
+  "printWidth": 80,
+  "sortPackageJson": false,
+  "sortTailwindcss": {
+    "stylesheet": "./packages/tailwind-config/shared-styles.css",
+    "functions": ["cn", "clsx", "cva"]
+  },
+  "ignorePatterns": [
+    "**/generated/**",
+    "**/drizzle/**",
+    "**/migrations/**",
+    "bun.lock"
+  ]
+}

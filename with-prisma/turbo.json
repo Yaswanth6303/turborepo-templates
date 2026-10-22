@@ -1,0 +1,48 @@
+{
+  "$schema": "https://turborepo.dev/schema.json",
+  "ui": "tui",
+  "globalDependencies": [".env"],
+  "tasks": {
+    "build": {
+      "dependsOn": ["^build", "^db:generate"],
+      "inputs": ["$TURBO_DEFAULT$", ".env*"],
+      "env": ["DATABASE_URL"],
+      "outputs": ["dist/**", ".next/**", "!.next/cache/**", "!.next/dev/**"]
+    },
+    "check-types": {
+      "dependsOn": ["^build", "^check-types", "db:generate", "^db:generate"]
+    },
+    "dev": {
+      "dependsOn": ["^db:generate"],
+      "env": ["DATABASE_URL"],
+      "cache": false,
+      "persistent": true
+    },
+    "db:generate": {
+      "inputs": ["prisma/**", "drizzle.config.ts", "src/schema.ts"],
+      "outputs": ["src/generated/**"]
+    },
+    "db:migrate": {
+      "env": ["DATABASE_URL"],
+      "cache": false,
+      "interactive": true
+    },
+    "db:deploy": {
+      "env": ["DATABASE_URL"],
+      "cache": false
+    },
+    "db:push": {
+      "env": ["DATABASE_URL"],
+      "cache": false
+    },
+    "db:seed": {
+      "env": ["DATABASE_URL"],
+      "cache": false
+    },
+    "db:studio": {
+      "env": ["DATABASE_URL"],
+      "cache": false,
+      "persistent": true
+    }
+  }
+}
