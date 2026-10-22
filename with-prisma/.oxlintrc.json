@@ -9,7 +9,12 @@
     "eqeqeq": ["error", "always"],
     "no-var": "error",
     "prefer-const": "error",
-    "no-console": ["warn", { "allow": ["warn", "error"] }],
+    "no-console": [
+      "warn",
+      {
+        "allow": ["warn", "error"]
+      }
+    ],
     "react/react-in-jsx-scope": "off",
     "react/jsx-key": "error",
     "react-hooks/rules-of-hooks": "error",
@@ -18,8 +23,10 @@
   },
   "overrides": [
     {
-      "files": ["**/seed.ts", "**/*.config.{js,ts,mjs}"],
-      "rules": { "no-console": "off" }
+      "files": ["**/seed.ts", "**/*.config.{js,ts,mjs}", "scripts/**"],
+      "rules": {
+        "no-console": "off"
+      }
     }
   ],
   "ignorePatterns": [

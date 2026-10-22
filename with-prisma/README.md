@@ -30,21 +30,31 @@ Check the database connection: <http://localhost:3001/api/health>
 
 ## Scripts
 
-| Command                | What it does                                       |
-| ---------------------- | -------------------------------------------------- |
-| `bun run dev`          | Start all apps (generates the Prisma client first) |
-| `bun run build`        | Production build of every app and package          |
-| `bun run check-types`  | Type-check everything                              |
-| `bun run lint`         | oxlint, fails on any warning                       |
-| `bun run lint:fix`     | oxlint with auto-fix                               |
-| `bun run format`       | Format with oxfmt                                  |
-| `bun run format:check` | Check formatting (CI)                              |
-| `bun run db:generate`  | Generate the Prisma client                         |
-| `bun run db:migrate`   | Create and apply a migration (development)         |
-| `bun run db:deploy`    | Apply pending migrations (production)              |
-| `bun run db:push`      | Push the schema without a migration (prototyping)  |
-| `bun run db:seed`      | Run `packages/database/prisma/seed.ts`             |
-| `bun run db:studio`    | Open Prisma Studio                                 |
+| Command                  | What it does                                                   |
+| ------------------------ | -------------------------------------------------------------- |
+| `bun run dev`            | Start all apps (generates the Prisma client first)             |
+| `bun run new:app <name>` | Add a Next.js app in `apps/` (`--db`, `--port <n>`), no ESLint |
+| `bun run build`          | Production build of every app and package                      |
+| `bun run check-types`    | Type-check everything                                          |
+| `bun run lint`           | oxlint, fails on any warning                                   |
+| `bun run lint:fix`       | oxlint with auto-fix                                           |
+| `bun run format`         | Format with oxfmt                                              |
+| `bun run format:check`   | Check formatting (CI)                                          |
+| `bun run db:generate`    | Generate the Prisma client                                     |
+| `bun run db:migrate`     | Create and apply a migration (development)                     |
+| `bun run db:deploy`      | Apply pending migrations (production)                          |
+| `bun run db:push`        | Push the schema without a migration (prototyping)              |
+| `bun run db:seed`        | Run `packages/database/prisma/seed.ts`                         |
+| `bun run db:studio`      | Open Prisma Studio                                             |
+
+## Adding an app
+
+```sh
+bun run new:app admin        # Next.js app on the next free port
+bun run new:app admin --db   # also uses @repo/database
+```
+
+The new app uses the root oxlint/oxfmt and the shared TypeScript, Tailwind and UI packages. Don't use `create-next-app` inside `apps/`: it adds ESLint.
 
 ## Using the database in an app
 
