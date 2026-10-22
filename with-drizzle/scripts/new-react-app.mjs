@@ -14,6 +14,7 @@ import { parseArgs } from "node:util";
 import {
   appsDir,
   detectPackageManager,
+  fail,
   installAndFormat,
   pickPort,
   readJson,
@@ -30,12 +31,19 @@ const { values, positionals } = parseArgs({
   allowPositionals: true,
   options: {
     port: { type: "string" },
+    // Accepted only to explain why it isn't supported.
+    db: { type: "boolean", default: false },
     help: { type: "boolean", short: "h", default: false },
   },
 });
 if (values.help) {
   console.log(usage);
   process.exit(0);
+}
+if (values.db) {
+  fail(
+    "React apps run in the browser and can't use @repo/database. Create an API with `new:ts-app <name> --db` (or a Next.js route handler) and fetch from it.",
+  );
 }
 
 const [name] = positionals;
