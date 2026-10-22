@@ -2,7 +2,7 @@
 // Scaffold a new Next.js app in apps/<name>, wired to the shared config:
 // root oxlint/oxfmt (no ESLint/Prettier), @repo/typescript-config, @repo/tailwind-config, @repo/ui.
 //
-// Usage: bun run new:app <name> [--db] [--port <number>]
+// Usage: bun run new:next-app <name> [--db] [--port <number>]
 //   --db      also depend on @repo/database and add apps/<name>/.env.example
 //   --port    dev server port (default: next free port after existing apps)
 
@@ -37,7 +37,7 @@ const { values, positionals } = parseArgs({
   },
 });
 
-const usage = "Usage: bun run new:app <name> [--db] [--port <number>]";
+const usage = "Usage: bun run new:next-app <name> [--db] [--port <number>]";
 if (values.help) {
   console.log(usage);
   process.exit(0);

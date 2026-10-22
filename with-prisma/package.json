@@ -15,7 +15,7 @@
     "db:push": "turbo run db:push",
     "db:seed": "turbo run db:seed",
     "db:studio": "turbo run db:studio",
-    "new:app": "node scripts/new-app.mjs"
+    "new:next-app": "node scripts/new-next-app.mjs"
   },
   "devDependencies": {
     "oxfmt": "0.74.0",
