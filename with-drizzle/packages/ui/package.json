@@ -9,7 +9,10 @@
   ],
   "exports": {
     "./styles.css": "./dist/index.css",
-    "./*": "./dist/*.js"
+    "./*": {
+      "types": "./src/*.tsx",
+      "default": "./dist/*.js"
+    }
   },
   "license": "MIT",
   "scripts": {
