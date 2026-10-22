@@ -135,7 +135,7 @@ my-app/
 │   ├── ui/                      # @repo/ui — shared React components (Tailwind, `ui:` prefix)
 │   ├── tailwind-config/         # @repo/tailwind-config — shared theme + PostCSS config
 │   └── typescript-config/       # @repo/typescript-config — shared tsconfig presets
-├── scripts/new-next-app.mjs          # `bun run new:next-app <name>` scaffolder
+├── scripts/new-app.mjs          # `bun run new:app <name>` scaffolder
 ├── .github/workflows/ci.yml     # format → lint → type-check → build
 ├── .oxlintrc.json               # oxlint config (TypeScript, React, Next.js, import rules)
 ├── .oxfmtrc.json                # oxfmt config (Tailwind class sorting)
@@ -211,7 +211,7 @@ Run everything from the repo root.
 | `bun run lint:fix`     | Run oxlint with auto-fix                                                                       |
 | `bun run format`       | Format everything with oxfmt                                                                   |
 | `bun run format:check` | Check formatting without writing (used in CI)                                                  |
-| `bun run new:next-app <name>` | Add a Next.js app in `apps/` wired to the shared config ([details](#add-a-new-app))          |
+| `bun run new:app <name>` | Add a Next.js app in `apps/` wired to the shared config ([details](#add-a-new-app))          |
 | `bun run db:migrate`   | Create and apply a migration (development)                                                     |
 | `bun run db:deploy`    | Apply pending migrations (production)                                                          |
 | `bun run db:push`      | Push the schema without creating a migration (prototyping only)                                |
@@ -338,12 +338,12 @@ The build uses a placeholder `DATABASE_URL`. No database is contacted, because t
 ### Add a new app
 
 ```sh
-bun run new:next-app admin          # Next.js app on the next free port
-bun run new:next-app admin --db     # …that also uses @repo/database
-bun run new:next-app admin --port 4000
+bun run new:app admin          # Next.js app on the next free port
+bun run new:app admin --db     # …that also uses @repo/database
+bun run new:app admin --port 4000
 ```
 
-`new:next-app` creates `apps/<name>` from the template's own app config, so it has **no ESLint or Prettier** and uses the root oxlint/oxfmt, `@repo/typescript-config`, `@repo/tailwind-config` and `@repo/ui`. It then installs with your package manager (bun, pnpm, npm or nub, detected from `package.json` or the lockfile) and formats the new files.
+`new:app` creates `apps/<name>` from the template's own app config, so it has **no ESLint or Prettier** and uses the root oxlint/oxfmt, `@repo/typescript-config`, `@repo/tailwind-config` and `@repo/ui`. It then installs with your package manager (bun, pnpm, npm or nub, detected from `package.json` or the lockfile) and formats the new files.
 
 | Option          | Effect                                                                      |
 | --------------- | --------------------------------------------------------------------------- |
@@ -354,6 +354,27 @@ It refuses invalid names, existing apps and ports already in use. Start the new 
 
 > [!TIP]
 > Avoid `create-next-app` inside `apps/`: it adds its own ESLint config and dependencies that this monorepo doesn't use.
+
+### Add a Node.js app (TypeScript or JavaScript)
+
+For APIs, workers or an Express/Fastify/Hono server:
+
+```sh
+bun run new:ts-app api          # TypeScript
+bun run new:js-app worker       # JavaScript
+bun run new:ts-app api --db     # …that also uses @repo/database
+```
+
+Each app gets a minimal `node:http` server with `GET /health`, a `.env.example` (with `PORT` and, with `--db`, `DATABASE_URL`) and graceful shutdown on `SIGINT`/`SIGTERM`:
+
+| Script  | What it runs                                                                              |
+| ------- | ----------------------------------------------------------------------------------------- |
+| `dev`   | `tsx watch` (runs TypeScript directly, reloads on change, loads `.env`)                   |
+| `build` | `tsup` → `dist/index.js` (bundles `@repo/*` workspace code; npm dependencies stay external) |
+| `start` | `node dist/index.js` (loads `.env` if present)                                            |
+| `check-types` | `tsc --noEmit` (TypeScript apps only)                                               |
+
+With `--db`, `/health` runs `SELECT 1` through Prisma or Drizzle (whichever the template uses) and returns `503` while the database is unreachable. Add a framework with `bun add express --filter=api`.
 
 ### Add a new package
 

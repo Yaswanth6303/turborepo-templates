@@ -30,21 +30,23 @@ Check the database connection: <http://localhost:3001/api/health>
 
 ## Scripts
 
-| Command                       | What it does                                                   |
-| ----------------------------- | -------------------------------------------------------------- |
-| `bun run dev`                 | Start all apps                                                 |
-| `bun run new:next-app <name>` | Add a Next.js app in `apps/` (`--db`, `--port <n>`), no ESLint |
-| `bun run build`               | Production build of every app and package                      |
-| `bun run check-types`         | Type-check everything                                          |
-| `bun run lint`                | oxlint, fails on any warning                                   |
-| `bun run lint:fix`            | oxlint with auto-fix                                           |
-| `bun run format`              | Format with oxfmt                                              |
-| `bun run format:check`        | Check formatting (CI)                                          |
-| `bun run db:migrate`          | Generate SQL from `src/schema.ts` and apply it                 |
-| `bun run db:deploy`           | Apply pending migrations (production)                          |
-| `bun run db:push`             | Push the schema without a migration (prototyping)              |
-| `bun run db:seed`             | Run `packages/database/src/seed.ts`                            |
-| `bun run db:studio`           | Open Drizzle Studio                                            |
+| Command                       | What it does                                                                    |
+| ----------------------------- | ------------------------------------------------------------------------------- |
+| `bun run dev`                 | Start all apps                                                                  |
+| `bun run new:next-app <name>` | Add a Next.js app in `apps/` (`--db`, `--port <n>`), no ESLint                  |
+| `bun run new:ts-app <name>`   | Add a Node.js TypeScript app (API, worker, …) in `apps/` (`--db`, `--port <n>`) |
+| `bun run new:js-app <name>`   | Same, in JavaScript                                                             |
+| `bun run build`               | Production build of every app and package                                       |
+| `bun run check-types`         | Type-check everything                                                           |
+| `bun run lint`                | oxlint, fails on any warning                                                    |
+| `bun run lint:fix`            | oxlint with auto-fix                                                            |
+| `bun run format`              | Format with oxfmt                                                               |
+| `bun run format:check`        | Check formatting (CI)                                                           |
+| `bun run db:migrate`          | Generate SQL from `src/schema.ts` and apply it                                  |
+| `bun run db:deploy`           | Apply pending migrations (production)                                           |
+| `bun run db:push`             | Push the schema without a migration (prototyping)                               |
+| `bun run db:seed`             | Run `packages/database/src/seed.ts`                                             |
+| `bun run db:studio`           | Open Drizzle Studio                                                             |
 
 ## Adding an app
 
@@ -53,7 +55,12 @@ bun run new:next-app admin        # Next.js app on the next free port
 bun run new:next-app admin --db   # also uses @repo/database
 ```
 
-The new app uses the root oxlint/oxfmt and the shared TypeScript, Tailwind and UI packages. Don't use `create-next-app` inside `apps/`: it adds ESLint.
+```sh
+bun run new:ts-app api --db  # Node.js TypeScript app (tsx dev, tsup build, /health)
+bun run new:js-app worker    # Node.js JavaScript app
+```
+
+Every new app uses the root oxlint/oxfmt and the shared TypeScript, Tailwind and UI packages. Don't use `create-next-app` inside `apps/`: it adds ESLint.
 
 ## Using the database in an app
 
