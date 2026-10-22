@@ -16,7 +16,8 @@
     "db:studio": "turbo run db:studio",
     "new:next-app": "node scripts/new-next-app.mjs",
     "new:ts-app": "node scripts/new-node-app.mjs --lang ts",
-    "new:js-app": "node scripts/new-node-app.mjs --lang js"
+    "new:js-app": "node scripts/new-node-app.mjs --lang js",
+    "new:react-app": "node scripts/new-react-app.mjs"
   },
   "devDependencies": {
     "oxfmt": "0.74.0",

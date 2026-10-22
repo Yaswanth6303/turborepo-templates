@@ -376,6 +376,31 @@ Each app gets a minimal `node:http` server with `GET /health`, a `.env.example` 
 
 With `--db`, `/health` runs `SELECT 1` through Prisma or Drizzle (whichever the template uses) and returns `503` while the database is unreachable. Add a framework with `bun add express --filter=api`.
 
+### Add a React app (Vite+)
+
+For a client-side React single-page app (dashboard, admin panel, widget) built with [Vite+](https://viteplus.dev):
+
+```sh
+bun run new:react-app dashboard
+bun run new:react-app dashboard --port 4000
+```
+
+The app uses React 19, Tailwind CSS 4 (`@tailwindcss/vite`) and `@repo/ui`, the same versions as the Next.js apps:
+
+| Script        | What it runs                                    |
+| ------------- | ----------------------------------------------- |
+| `dev`         | `vp dev` (dev server with HMR)                  |
+| `build`       | `vp build` → static files in `dist/`            |
+| `preview`     | `vp preview` (serve the production build)       |
+| `test`        | `vp test` (Vitest; import from `vite-plus/test`) |
+| `check-types` | `tsc --noEmit`                                  |
+
+Notes:
+
+- **Lint and format stay at the root.** The app's `vite.config.ts` has no `lint`/`fmt` blocks and `vp check` isn't used, so oxlint and oxfmt behave exactly as for every other app.
+- The first React app adds a root `overrides` entry (`vite` → `@voidzero-dev/vite-plus-core`) so Vite plugins resolve to the Vite+ core. With pnpm it goes under `pnpm.overrides`.
+- It's a browser app: don't import `@repo/database`. Call one of your APIs (e.g. a `new:ts-app` server or a Next.js route handler) instead. Expose config with `VITE_`-prefixed env vars.
+
 ### Add a new package
 
 Create `packages/<name>/package.json` with a `@repo/<name>` name and an `exports` field pointing at `./src/index.ts`. Next.js compiles workspace TypeScript packages directly, so no build step is needed.
